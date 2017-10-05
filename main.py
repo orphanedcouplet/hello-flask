@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect
+import cgi
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -23,7 +24,7 @@ def index():
 @app.route("/hello", methods=["POST"])
 def hello():
     firstn = request.form['first_name']
-    return "<h1>Hello, " + firstn + "</h1>"
+    return "<h1>Hello, " + cgi.escape(firstn) + "</h1>"
 
 
 time_form = """
