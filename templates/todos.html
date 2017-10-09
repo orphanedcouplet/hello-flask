@@ -1,9 +1,6 @@
-<!doctype html>
-<html>
-    <head>
-        <title>TODOS</title>
-    </head>
-    <body>
+{% extends "base.html" %}
+
+{% block content %}
         <h1>TODOS</h1>
         <form method="post">
             <label>
@@ -24,8 +21,6 @@
                 <li>{{task}}</li>
                 {% endfor %}
             </ul>
-            
-        {% endif %}
 
-    </body>
-</html>
+        {% endif %}
+{% endblock %}
