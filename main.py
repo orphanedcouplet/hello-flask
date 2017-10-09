@@ -21,28 +21,10 @@ def hello():
     return template.render(name=first_name)
 
 
-time_form = """
-    <style>
-        .error {{ color: red; }}
-    </style>
-    <h1>Validate Time</h1>
-    <form method='POST'>
-        <label>Hours (24-hour format)
-            <input name="hours" type="text" value="{hours}" />
-        </label>
-        <p class="error">{hours_error}</p>
-        <label>Minutes
-            <input name="minutes" type="text" value="{minutes}" />
-        </label>
-        <p class="error">{minutes_error}</p>
-        <input type="submit" value="Validate" />
-    </form>
-"""
-
 @app.route("/validate-time")
 def display_time_form():
-    return time_form.format(hours="", hours_error="", minutes="", minutes_error="")
-
+    template = jinja_env.get_template("time_form.html")
+    return template.render()
 
 
 def is_integer(num):
@@ -51,6 +33,7 @@ def is_integer(num):
         return True
     except ValueError:
         return False
+
 
 @app.route("/validate-time", methods=["POST"])
 def validate_time():
@@ -83,10 +66,11 @@ def validate_time():
         time = str(hours) + ":" + str(minutes)
         return redirect("/valid-time?time={0}".format(time))
     else:
-        return time_form.format(hours_error=hours_error, minutes_error=minutes_error, hours=hours, minutes=minutes)
-
-
-
+        template = jinja_env.get_template("time_form.html")
+        return template.render(hours_error=hours_error, 
+            minutes_error=minutes_error, 
+            hours=hours, 
+            minutes=minutes)
 
 
 @app.route("/valid-time")
